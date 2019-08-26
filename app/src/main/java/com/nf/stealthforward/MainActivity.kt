@@ -1,6 +1,5 @@
 package com.nf.stealthforward
 
-import android.Manifest.permission.SEND_SMS
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
@@ -23,19 +22,18 @@ class MainActivity : AppCompatActivity(), SmsListener {
     }
 
     override fun onSmsReceived(sender: String, body: String) {
-        tvSmsLog.append("$sender : $body\n")
-        Toast.makeText(this, "$sender : $body", Toast.LENGTH_LONG).show()
+        tvSmsLog.append("\n$sender : $body")
     }
 
     private fun checkForSmsPermission() {
         if (ActivityCompat.checkSelfPermission(
                 this,
-                SEND_SMS
+                android.Manifest.permission.RECEIVE_SMS
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(
                 this,
-                arrayOf(SEND_SMS),
+                arrayOf(android.Manifest.permission.RECEIVE_SMS),
                 101
             )
         }
@@ -45,7 +43,7 @@ class MainActivity : AppCompatActivity(), SmsListener {
 
         when (requestCode) {
             101 -> {
-                if (!permissions[0].equals(SEND_SMS, true) ||
+                if (!permissions[0].equals(android.Manifest.permission.RECEIVE_SMS, true) ||
                     grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "SMS permission denied!", Toast.LENGTH_LONG).show()
                 }
