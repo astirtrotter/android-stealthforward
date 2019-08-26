@@ -1,15 +1,13 @@
 package com.nf.stealthforward
 
-import android.Manifest.permission.SEND_SMS
-import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SmsListener {
 
     companion object {
         lateinit var inst: MainActivity
@@ -19,6 +17,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        SmsBroadcastReceiver.smsListener = this
 
 //        fab.setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -33,8 +33,9 @@ class MainActivity : AppCompatActivity() {
         inst = this
     }
 
-    fun onReceiveSMS(sender: String, body: String) {
-        tvSmsLog.append(sender + ": " + body + "\n")
+    override fun onSmsReceived(sender: String, body: String) {
+        tvSmsLog.append("$sender : $body\n")
+        Toast.makeText(this, "$sender : $body", Toast.LENGTH_LONG).show()
     }
 
 //    private fun checkForSmsPermission() {
