@@ -15,8 +15,6 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-        Log.d("SmsBroadcastReceiver", "onReceive")
-
         if ("android.provider.Telephony.SMS_RECEIVED" != intent.action) return;
 
         val bundle = intent.extras
