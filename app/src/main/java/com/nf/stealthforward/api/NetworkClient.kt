@@ -8,11 +8,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object NetworkClient {
-    private val BASE_URL = "https://localhost:4000".takeIf { BuildConfig.DEBUG } ?: "https://firebase"
+    private val BASE_URL = "https://localhost:4000".takeIf { BuildConfig.DEBUG } ?: "https://console.firebase.google.com"
     private val TIMEOUT = 10L
-    private var retrofit: Retrofit? = null
+    private var retrofit: API? = null
 
-    val retrofitClient: Retrofit
+    val retrofitClient: API
         get() {
             if (retrofit == null) {
                 val logging = HttpLoggingInterceptor()
@@ -25,6 +25,7 @@ object NetworkClient {
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(okHttpClientBuilder.build())
                     .build()
+                    .create(API::class.java)
             }
             return retrofit!!
         }

