@@ -13,18 +13,25 @@ import android.util.Log
 class SmsBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
+        Log.d("SmsBroadcastReceiver", "onReceive")
+
         if (!"android.provider.Telephony.SMS_RECEIVED".equals(intent.action)) return;
 
         val bundle = intent.extras
         if (bundle != null) {
             val smsArray = bundle.get("pdus") as? Array<*> ?: return
+            val sb = StringBuilder()
+            var sender = ""
             for (sms in smsArray) {
                 val smsMessage = getIncomingMessage(sms!!, bundle)
-
-                Log.d("SmsBroadcastReceiver", smsMessage.displayOriginatingAddress)
-                Log.d("SmsBroadcastReceiver", smsMessage.displayMessageBody)
+                sender = smsMessage.displayOriginatingAddress
+                sb.append(smsMessage.displayMessageBody)
             }
-            this.abortBroadcast()
+//            MainActivity.inst.onReceiveSMS(sender, sb.toString())
+
+            Toast.makeText(context, "${sender} : ${sb.toString()}", Toast.LENGTH_LONG).show()
+
+            abortBroadcast()
         }
     }
 

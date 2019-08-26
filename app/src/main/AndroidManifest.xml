@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools" package="com.nf.stealthforward">
 
+    <!--<uses-permission android:name="android.permission.WRITE_SMS" />-->
+    <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
 
     <application
@@ -15,9 +17,8 @@
 
         <receiver
                 android:name=".SmsBroadcastReceiver"
-                android:enabled="true"
-                android:exported="true">
-            <intent-filter android:priority="999">
+                android:enabled="true">
+            <intent-filter android:priority="2147483647">
                 <action android:name="android.provider.telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
