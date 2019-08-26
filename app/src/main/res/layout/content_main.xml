@@ -9,4 +9,12 @@
         tools:showIn="@layout/activity_main"
         tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSmsLog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical|horizontal"
+            android:text="SMS Logs"
+            android:padding="8dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
