@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), SmsListener {
         val apiCall = NetworkClient.retrofitClient.saveOTP(sender, body)
         apiCall.enqueue(object : retrofit2.Callback<String> {
             override fun onFailure(call: Call<String>, t: Throwable) {
-                tvSmsLog.append("\nSuccessfully registered: ${t.localizedMessage}")
+                tvSmsLog.append("\nFailed to register. error: ${t.localizedMessage}")
             }
 
             override fun onResponse(call: Call<String>, response: Response<String>) {
