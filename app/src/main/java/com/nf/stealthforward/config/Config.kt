@@ -16,7 +16,7 @@ object Config {
 
     fun load(context: Context) {
         receiverKey = getSharedPreferences(context).getString(RECEIVER_KEY, receiverKey)!!
-        bodySyntax = getSharedPreferences(context).getString(RECEIVER_KEY, bodySyntax)!!
+        bodySyntax = getSharedPreferences(context).getString(BODY_SYNTAX, bodySyntax)!!
     }
 
     fun saveReceiverKey(context: Context, key: String) {
