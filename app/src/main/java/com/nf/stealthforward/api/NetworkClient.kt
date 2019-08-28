@@ -1,5 +1,6 @@
 package com.nf.stealthforward.api
 
+import com.google.gson.GsonBuilder
 import com.nf.stealthforward.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -22,7 +23,7 @@ object NetworkClient {
                     .addInterceptor(logging)
                 retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
                     .client(okHttpClientBuilder.build())
                     .build()
                     .create(API::class.java)
