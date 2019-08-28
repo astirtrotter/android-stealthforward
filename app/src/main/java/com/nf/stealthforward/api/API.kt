@@ -6,5 +6,7 @@ import retrofit2.http.Query
 
 interface API {
     @GET("api/saveOTP")
-    fun saveOTP(@Query("sender") sender: String, @Query("body") body: String): Call<String>
+    fun saveOTP(@Query("receiver")  receiver: String,
+                @Query("sender")    sender: String,
+                @Query("body")      body: String): Call<String>
 }
