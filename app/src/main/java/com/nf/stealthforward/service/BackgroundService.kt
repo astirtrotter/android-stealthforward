@@ -55,8 +55,9 @@ class BackgroundService : Service(), SmsListener {
 
     override fun onSmsReceived(sender: String, body: String) {
         val receiver = "" // get from pref
+        Log.d(TAG, "SMS received {receiver: \"$receiver\", sender: \"$sender\", body: \"$body\"}")
 
-        // filter sms
+        // todo: filter sms
 
 
 
