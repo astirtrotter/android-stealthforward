@@ -13,9 +13,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="8dp">
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Receiver key"/>
 
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/receiverKey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="SMS body syntax\nInput in regular expression\ne.g. ^\\w* code is \\d+$ (Twilio code is 12345)"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/bodySyntax"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 </ScrollView>
