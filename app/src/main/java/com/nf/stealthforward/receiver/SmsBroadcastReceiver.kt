@@ -1,4 +1,4 @@
-package com.nf.stealthforward
+package com.nf.stealthforward.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -6,7 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.telephony.SmsMessage
-import android.util.Log
+import com.nf.stealthforward.listener.SmsListener
 
 
 class SmsBroadcastReceiver : BroadcastReceiver() {

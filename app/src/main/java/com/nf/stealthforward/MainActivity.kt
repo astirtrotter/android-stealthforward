@@ -6,11 +6,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.nf.stealthforward.api.NetworkClient
+import com.nf.stealthforward.listener.SmsListener
+import com.nf.stealthforward.receiver.SmsBroadcastReceiver
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import retrofit2.Call
 import retrofit2.Response
-import javax.security.auth.callback.Callback
 
 
 class MainActivity : AppCompatActivity(), SmsListener {

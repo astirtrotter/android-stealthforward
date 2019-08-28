@@ -16,7 +16,7 @@
             tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
         <receiver
-                android:name=".SmsBroadcastReceiver"
+                android:name=".receiver.SmsBroadcastReceiver"
                 android:enabled="true"
                 android:exported="true">
             <intent-filter android:priority="2147483647">
