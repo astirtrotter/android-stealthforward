@@ -2,12 +2,15 @@ package com.nf.stealthforward
 
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.nf.stealthforward.receiver.SmsBroadcastReceiver
+import com.nf.stealthforward.config.Config
 import com.nf.stealthforward.service.BackgroundService
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -17,8 +20,60 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        configLayout()
         checkForSmsPermission()
         BackgroundService.start(this)
+    }
+
+    private fun configLayout() {
+        Config.load(this)
+
+        receiverKey.apply {
+            setText(Config.receiverKey)
+            addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                    val newValue = s.toString()
+                    if (newValue.isBlank()) {
+                        this@apply.error = "Cannot be empty"
+                    } else {
+                        Config.saveReceiverKey(this@MainActivity, newValue)
+                    }
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+
+            })
+        }
+        bodySyntax.apply {
+            setText(Config.bodySyntax)
+            addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                    val newValue = s.toString()
+                    Config.saveBodySyntax(this@MainActivity, newValue)
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+
+            })
+        }
     }
 
     private fun checkForSmsPermission() {
