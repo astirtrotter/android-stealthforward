@@ -1,6 +1,7 @@
 package com.nf.stealthforward.service
 
 import android.app.Service
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
@@ -18,6 +19,10 @@ class BackgroundService : Service(), SmsListener {
         fun start(context: Context) {
             Log.d(TAG, "starting service requested")
             Intent(context, BackgroundService::class.java).also { context.startService(it) }
+//            Intent().also {
+//                it.component = ComponentName(context.packageName, BackgroundService::class.java.name)
+//                context.startService(it)
+//            }
         }
 
         fun stop() {
@@ -32,7 +37,7 @@ class BackgroundService : Service(), SmsListener {
         instance = this
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(TAG, "background service started")
         return super.onStartCommand(intent, flags, startId)
     }
