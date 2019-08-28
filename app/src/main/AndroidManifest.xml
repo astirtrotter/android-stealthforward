@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        package="com.nf.stealthforward">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.nf.stealthforward">
 
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
@@ -9,18 +9,18 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme"
-            tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
         <receiver
-                android:name=".receiver.BootCompletedReceiver"
-                android:enabled="true"
-                android:exported="true">
+            android:name=".receiver.BootCompletedReceiver"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
@@ -29,25 +29,25 @@
         </receiver>
 
         <service
-                android:name=".service.BackgroundService"
-                android:enabled="true"
-                android:exported="true">
-
-        </service>
+            android:name=".service.BackgroundService"
+            android:enabled="true"
+            android:exported="true"
+            android:stopWithTask="false"
+            tools:ignore="ExportedService" />
 
         <receiver
-                android:name=".receiver.SmsBroadcastReceiver"
-                android:enabled="true"
-                android:exported="true"
-                android:permission="android.permission.BROADCAST_SMS">
+            android:name=".receiver.SmsBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
             <intent-filter android:priority="2147483647">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
 
         <activity
-                android:name=".MainActivity"
-                android:theme="@style/AppTheme.NoActionBar">
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

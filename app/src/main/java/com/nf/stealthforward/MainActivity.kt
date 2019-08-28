@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.nf.stealthforward.receiver.SmsBroadcastReceiver
+import com.nf.stealthforward.service.BackgroundService
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         checkForSmsPermission()
+        BackgroundService.start(this)
     }
 
     private fun checkForSmsPermission() {

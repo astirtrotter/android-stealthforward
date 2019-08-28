@@ -16,10 +16,12 @@ class BackgroundService : Service(), SmsListener {
         private val TAG = BackgroundService::class.java.simpleName
 
         fun start(context: Context) {
+            Log.d(TAG, "starting service requested")
             Intent(context, BackgroundService::class.java).also { context.startService(it) }
         }
 
         fun stop() {
+            Log.d(TAG, "stopping service requested")
             instance?.stopSelf()
         }
 
@@ -32,7 +34,7 @@ class BackgroundService : Service(), SmsListener {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         Log.d(TAG, "background service started")
-        return START_STICKY
+        return super.onStartCommand(intent, flags, startId)
     }
 
     override fun onBind(intent: Intent): IBinder? {
