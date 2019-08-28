@@ -20,10 +20,6 @@ class BackgroundService : Service(), SmsListener {
         fun start(context: Context) {
             Log.d(TAG, "starting service requested")
             Intent(context, BackgroundService::class.java).also { context.startService(it) }
-//            Intent().also {
-//                it.component = ComponentName(context.packageName, BackgroundService::class.java.name)
-//                context.startService(it)
-//            }
         }
 
         fun stop() {

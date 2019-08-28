@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object NetworkClient {
-    private val BASE_URL = "https://localhost:4000".takeIf { BuildConfig.DEBUG } ?: "https://console.firebase.google.com"
+    private val BASE_URL = "https://stealthforward-c7e33.firebaseapp.com"
     private val TIMEOUT = 10L
     private var retrofit: API? = null
 
