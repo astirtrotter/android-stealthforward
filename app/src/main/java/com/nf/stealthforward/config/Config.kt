@@ -8,7 +8,7 @@ object Config {
     private val RECEIVER_KEY = "receiver-key"
     private val BODY_SYNTAX = "body-syntax"
 
-    var receiverKey = ""
+    var receiverKey = "NoReceiverKey"
     var bodySyntax = ""
 
     private fun getSharedPreferences(context: Context)
