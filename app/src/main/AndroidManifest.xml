@@ -16,7 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-
+        <receiver
+            android:name=".receiver.RestartBackgroundServiceListener"
+            android:enabled="true" />
         <receiver
             android:name=".receiver.BootCompletedReceiver"
             android:enabled="true"
@@ -24,16 +26,14 @@
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
 
         <service
             android:name=".service.BackgroundService"
-            android:enabled="true"
-            android:exported="true"
-            android:stopWithTask="false"
-            tools:ignore="ExportedService" />
+            android:enabled="true"/>
 
         <receiver
             android:name=".receiver.SmsBroadcastReceiver"

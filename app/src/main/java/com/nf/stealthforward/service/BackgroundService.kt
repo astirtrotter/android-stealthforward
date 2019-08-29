@@ -1,6 +1,5 @@
 package com.nf.stealthforward.service
 
-import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -9,14 +8,9 @@ import android.util.Log
 import com.nf.stealthforward.api.NetworkClient
 import com.nf.stealthforward.config.Config
 import com.nf.stealthforward.listener.SmsListener
+import com.nf.stealthforward.receiver.RestartBackgroundServiceListener
 import retrofit2.Call
 import retrofit2.Response
-import android.os.SystemClock
-import android.app.AlarmManager
-import androidx.core.content.ContextCompat.getSystemService
-import android.app.PendingIntent
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
 
 
 class BackgroundService : Service(), SmsListener {
@@ -25,28 +19,16 @@ class BackgroundService : Service(), SmsListener {
         private val TAG = BackgroundService::class.java.simpleName
 
         fun start(context: Context) {
-            Log.d(TAG, "starting service requested")
-
-            this.context = context
+            Log.d(TAG, "starting background service requested")
             Config.load(context)
             Intent(context, BackgroundService::class.java).also { context.startService(it) }
-
-//            val packageName = context.packageName
-//            Intent().also {
-//                it.component = ComponentName(packageName, BackgroundService::class.java.name)
-//                context.startService(it)
-//            }
         }
 
         fun stop() {
-            Log.d(TAG, "stopping service requested")
+            Log.d(TAG, "stopping background service requested")
             instance?.stopSelf()
         }
 
-        @SuppressLint("StaticFieldLeak")
-        private lateinit var context: Context
-
-        @SuppressLint("StaticFieldLeak")
         var instance: BackgroundService? = null
     }
 
@@ -56,8 +38,7 @@ class BackgroundService : Service(), SmsListener {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(TAG, "background service started")
-        Config.load(context)
-        return super.onStartCommand(intent, flags, startId)
+        return START_STICKY
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -67,19 +48,9 @@ class BackgroundService : Service(), SmsListener {
     override fun onDestroy() {
         Log.d(TAG, "background service stopped")
         instance = null
-    }
 
-    override fun onTaskRemoved(rootIntent: Intent?) {
-        val intentRestart = Intent(context, this.javaClass)
-        val pendingIntentRestart = PendingIntent.getService(context, 1, intentRestart, PendingIntent.FLAG_ONE_SHOT)
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.set(
-            AlarmManager.ELAPSED_REALTIME,
-            SystemClock.elapsedRealtime() + 1000,
-            pendingIntentRestart
-        )
-
-        super.onTaskRemoved(rootIntent)
+        Log.d(TAG, "restarting background service with action: " + RestartBackgroundServiceListener.ACTION)
+        Intent(RestartBackgroundServiceListener.ACTION).also { sendBroadcast(it) }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
