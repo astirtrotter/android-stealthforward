@@ -32,6 +32,7 @@
             android:name=".service.BackgroundService"
             android:enabled="true"
             android:exported="true"
+            android:stopWithTask="false"
             tools:ignore="ExportedService" />
 
         <receiver

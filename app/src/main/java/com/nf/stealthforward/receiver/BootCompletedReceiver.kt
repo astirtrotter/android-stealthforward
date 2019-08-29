@@ -11,7 +11,6 @@ class BootCompletedReceiver : BroadcastReceiver() {
 
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     override fun onReceive(context: Context, intent: Intent) {
-        Config.load(context)
         BackgroundService.start(context);
     }
 }

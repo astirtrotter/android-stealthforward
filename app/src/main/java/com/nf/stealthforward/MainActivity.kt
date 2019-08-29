@@ -20,14 +20,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        BackgroundService.start(this)
         configLayout()
         checkForSmsPermission()
-        BackgroundService.start(this)
     }
 
     private fun configLayout() {
-        Config.load(this)
-
         receiverKey.apply {
             setText(Config.receiverKey)
             addTextChangedListener(object : TextWatcher {

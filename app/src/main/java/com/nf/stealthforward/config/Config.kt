@@ -1,9 +1,10 @@
 package com.nf.stealthforward.config
 
 import android.content.Context
-import android.content.SharedPreferences
+import android.util.Log
 
 object Config {
+    private val TAG = Config::class.java.simpleName
     private val NAME = Config::class.java.name
     private val RECEIVER_KEY = "receiver-key"
     private val BODY_SYNTAX = "body-syntax"
@@ -15,6 +16,7 @@ object Config {
         = context.getSharedPreferences(NAME, Context.MODE_PRIVATE)
 
     fun load(context: Context) {
+        Log.d(TAG, "config loaded")
         receiverKey = getSharedPreferences(context).getString(RECEIVER_KEY, receiverKey)!!
         bodySyntax = getSharedPreferences(context).getString(BODY_SYNTAX, bodySyntax)!!
     }
